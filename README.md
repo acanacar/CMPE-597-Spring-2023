@@ -1,7 +1,11 @@
 # CMPE-597-Spring-2023
 
 ## Training Neural Network
-To train the neural network, you can run cli command with project folder path using --project_path argument
+To train the neural network, you can run cli command with project folder path by using  
+
+--project_path argument
+
+Example run command:
 
 python main.py --project_path C:\Users\a.acar\PycharmProjects\cmpe_587_assignment1
 
@@ -11,7 +15,7 @@ Other optional cli arguments are:
 --batch_size_valid
 --learning_rate
 
-Default Values:
+Default Values for these args:
 epoch => 40
 batch_size_train => 50
 batch_size_valid => 50
