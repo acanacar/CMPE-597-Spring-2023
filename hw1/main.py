@@ -1,11 +1,13 @@
 import pickle
 
 import numpy as np
+import argparse
 
-from cmpe_587_assignment1.Network import Network
+from Network import Network
 from pathlib import Path
 
-DATA_PATH = Path(fr"C:\Users\a.acar\PycharmProjects\NN_from_stratch\cmpe_587_assignment1\data")
+PROJECT_PATH = Path(fr"C:\Users\a.acar\PycharmProjects\NN_from_stratch\cmpe_587_assignment1")
+DATA_PATH = PROJECT_PATH/ Path(fr"hw1/data")
 
 
 def one_hot_encode(idx, vocab_size):
@@ -41,10 +43,26 @@ def create_idx_mapping_for_vocab(vocab_dict):
 
 
 if __name__ == '__main__':
-    BATCH_SIZE = 50
-    BATCH_SIZE_VALIDATION = 50
-    NO_OF_EPOCH = 40
-    learning_rate = 0.01
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--epoch",nargs='?',default=40,type=int)
+    parser.add_argument("--batch_size_train",nargs='?',default=50,type=int)
+    parser.add_argument("--batch_size_valid",nargs='?',default=50,type=int)
+    parser.add_argument("--learning_rate",nargs='?',default=0.01,type=float)
+    parser.add_argument("--project_path", type=str, help='path of project folder')
+
+
+    args = parser.parse_args()
+    print(args,'\n')
+    PROJECT_PATH = Path(args.project_path)
+    DATA_PATH = PROJECT_PATH / Path(fr"hw1/data")
+    BATCH_SIZE = args.batch_size_train
+    BATCH_SIZE_VALIDATION = args.batch_size_valid
+    NO_OF_EPOCH = args.epoch
+    learning_rate = args.learning_rate
+    print(f"project path is {str(PROJECT_PATH)}")
+    print(f"{NO_OF_EPOCH} epoch will be executed")
+    print(f"batch size for training  {BATCH_SIZE}")
+    print(f"batch size for validation  {BATCH_SIZE_VALIDATION}")
 
     # get data from memory
     vocab_data = np.load(file=str(DATA_PATH / Path(fr'vocab.npy')))
@@ -141,7 +159,7 @@ if __name__ == '__main__':
     network.params['b1'] = network.hidden_layer.biases
     network.params['W_3'] = network.output_layer.weights
     network.params['b_2'] = network.output_layer.biases
-    pickle.dump(model_params, open('saved_model_params.pkl', 'wb'))
-    pickle.dump(network, open('saved_network_model.pkl', 'wb'))
+    pickle.dump(model_params, open(PROJECT_PATH/Path('hw1')/Path('saved_model_params.pkl'), 'wb'))
+    pickle.dump(network, open(PROJECT_PATH/Path('hw1')/Path('saved_network_model.pkl'), 'wb'))
 
     print("saved_model.pkl is saved.")
